@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "catalog": "starpie-desktop-pet-assets",
+  "maintainer": "SoftBlack42",
+  "updatedAtUtc": "2026-10-08T12:00:00Z",
+  "items": [
+    {
+      "id": "local.bluewhale-maid",
+      "name": "蓝鲸女仆",
+      "version": "1.0.0",
+      "format": "starpie-desktop-pet-legacy-png",
+      "formatVersion": 1,
+      "directory": "pets/bluewhale-maid",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      },
+      "framesCount": 12,
+      "preview": "idle.png",
+      "maintainer": "SoftBlack42",
+      "referenceAuthor": "这个刀子真甜",
+      "license": "LicenseRef-User-Confirmed-Distribution",
+      "publishable": true,
+      "downloadUrl": "https://github.com/SoftBlack42/StarPie-DesktopPet-Assets/releases/download/bluewhale-maid-v1.0.0/StarPie-PetAsset-local.bluewhale-maid-1.0.0.zip",
+      "sourceNotes": "网络流行；用户提供的形象参考图",
+      "referenceAuthorUrl": "https://space.bilibili.com/23315338",
+      "referenceAuthorUid": "23315338",
+      "distributionConfirmation": "user-confirmed",
+      "packageSha256": "502491537b10d20a83eb2f5aeb73100a74ee2b88a5f6df02c13f6921ce50fadd",
+      "packageSize": 3531137,
+      "releaseTag": "bluewhale-maid-v1.0.0"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "format": "starpie-desktop-pet-legacy-png",
+  "formatVersion": 1,
+  "id": "local.bluewhale-maid",
+  "version": "1.0.0",
+  "name": "蓝鲸女仆",
+  "maintainer": "SoftBlack42",
+  "referenceAuthor": "这个刀子真甜",
+  "license": "LicenseRef-User-Confirmed-Distribution",
+  "publishable": true,
+  "canvas": {
+    "width": 512,
+    "height": 512
+  },
+  "frames": {
+    "idle": "idle.png",
+    "blink": "blink.png",
+    "react": "react.png",
+    "drag": "drag.png",
+    "point.E": "point_E.png",
+    "point.SE": "point_SE.png",
+    "point.S": "point_S.png",
+    "point.SW": "point_SW.png",
+    "point.W": "point_W.png",
+    "point.NW": "point_NW.png",
+    "point.N": "point_N.png",
+    "point.NE": "point_NE.png"
+  },
+  "playerCompatibility": "The current plugin reads PNG file names directly; this metadata file is informational and does not define an implemented manifest API.",
+  "sourceNotes": "网络流行；用户提供的形象参考图",
+  "sourceUrls": [
+    "https://space.bilibili.com/23315338"
+  ],
+  "sourceCreditStatus": "public account UID/name verified; artwork attribution provided by user",
+  "generatedWith": "built-in imagegen; whole-canvas runtime derivation via StarPie PetLibraryManager",
+  "referenceAuthorUrl": "https://space.bilibili.com/23315338",
+  "referenceAuthorUid": "23315338",
+  "distributionConfirmation": {
+    "basis": "user-confirmed",
+    "statement": "确认分发，继续下一步",
+    "confirmedBy": "SoftBlack42",
+    "confirmedAtUtc": "2026-10-08T14:36:22.097053+00:00",
+    "scope": "本套生成的桌宠运行素材包公开分发",
+    "originalAuthorLicenseIndependentlyVerified": false
+  }
+}

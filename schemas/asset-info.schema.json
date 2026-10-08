@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "StarPie Pet Asset Info",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "version",
+    "license",
+    "publishable",
+    "canvas",
+    "frames"
+  ],
+  "properties": {
+    "format": {
+      "const": "starpie-desktop-pet-legacy-png"
+    },
+    "formatVersion": {
+      "const": 1
+    },
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "maintainer": {
+      "type": "string"
+    },
+    "referenceAuthor": {
+      "type": "string"
+    },
+    "license": {
+      "type": "string"
+    },
+    "publishable": {
+      "type": "boolean"
+    },
+    "canvas": {
+      "type": "object",
+      "required": [
+        "width",
+        "height"
+      ],
+      "properties": {
+        "width": {
+          "type": "integer",
+          "enum": [
+            512
+          ]
+        },
+        "height": {
+          "type": "integer",
+          "enum": [
+            512
+          ]
+        }
+      }
+    },
+    "frames": {
+      "type": "object",
+      "required": [
+        "idle",
+        "blink",
+        "react",
+        "drag",
+        "point.E",
+        "point.SE",
+        "point.S",
+        "point.SW",
+        "point.W",
+        "point.NW",
+        "point.N",
+        "point.NE"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "idle": {
+          "const": "idle.png"
+        },
+        "blink": {
+          "const": "blink.png"
+        },
+        "react": {
+          "const": "react.png"
+        },
+        "drag": {
+          "const": "drag.png"
+        },
+        "point.E": {
+          "const": "point_E.png"
+        },
+        "point.SE": {
+          "const": "point_SE.png"
+        },
+        "point.S": {
+          "const": "point_S.png"
+        },
+        "point.SW": {
+          "const": "point_SW.png"
+        },
+        "point.W": {
+          "const": "point_W.png"
+        },
+        "point.NW": {
+          "const": "point_NW.png"
+        },
+        "point.N": {
+          "const": "point_N.png"
+        },
+        "point.NE": {
+          "const": "point_NE.png"
+        }
+      }
+    },
+    "playerCompatibility": {
+      "type": "string"
+    }
+  }
+}

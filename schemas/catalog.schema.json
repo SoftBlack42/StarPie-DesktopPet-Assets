@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "StarPie Pet Catalog",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "catalog",
+    "items"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "enum": [
+        1
+      ]
+    },
+    "catalog": {
+      "type": "string"
+    },
+    "maintainer": {
+      "type": "string"
+    },
+    "updatedAtUtc": {
+      "type": "string"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "version",
+          "directory",
+          "license",
+          "publishable"
+        ]
+      },
+      "minItems": 1
+    }
+  }
+}
