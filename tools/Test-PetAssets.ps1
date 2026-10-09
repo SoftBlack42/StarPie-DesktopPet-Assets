@@ -11,7 +11,13 @@ function Check([bool]$ok,[string]$message){if(-not $ok){throw "ASSET VALIDATION 
 $catalogText=Get-Content -LiteralPath (Join-Path $repoRoot 'catalog.json') -Raw -Encoding utf8
 Check (Test-Json -Json $catalogText -SchemaFile (Join-Path $repoRoot 'schemas/catalog.schema.json')) 'catalog schema validated'
 $catalog=$catalogText|ConvertFrom-Json
-Check ($catalog.items.Count -ge 1) 'catalog has at least one pack'
+if($catalog.items.Count -eq 0){
+ $petsRoot=Join-Path $repoRoot 'pets'
+ $remaining=if(Test-Path -LiteralPath $petsRoot){@(Get-ChildItem -LiteralPath $petsRoot -Recurse -File -Force)}else{@()}
+ Check ($remaining.Count -eq 0) 'empty catalog has no remaining asset files'
+ Write-Host "PASS: $count asset assertions (empty catalog)"
+ return
+}
 $seen=[Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
 $mapping=[ordered]@{idle='idle.png';blink='blink.png';react='react.png';drag='drag.png';'point.E'='point_E.png';'point.SE'='point_SE.png';'point.S'='point_S.png';'point.SW'='point_SW.png';'point.W'='point_W.png';'point.NW'='point_NW.png';'point.N'='point_N.png';'point.NE'='point_NE.png'}
 foreach($item in $catalog.items){
