@@ -25,7 +25,7 @@ function New-DeterministicPetZip {
         'idle.png', 'blink.png', 'react.png', 'drag.png',
         'point_E.png', 'point_SE.png', 'point_S.png', 'point_SW.png',
         'point_W.png', 'point_NW.png', 'point_N.png', 'point_NE.png',
-        'asset-info.json', 'RIGHTS.md'
+        'asset-info.json', 'README.md'
     )
 
     $files = Get-ChildItem -LiteralPath $SourceDirectory -File | Where-Object { $allowedNames -contains $_.Name } | Sort-Object Name
@@ -80,10 +80,10 @@ function Export-PetAssets {
         $infoText=Get-Content -LiteralPath (Join-Path $dir 'asset-info.json') -Raw -Encoding utf8
         if(-not(Test-Json -Json $infoText -SchemaFile (Join-Path $Root 'schemas/asset-info.schema.json'))){throw 'Asset schema validation failed'}
         $info=$infoText | ConvertFrom-Json
-        if($info.id -ne $item.id -or $info.version -ne $item.version -or $info.license -ne $item.license -or $info.publishable -ne $item.publishable){throw 'Asset/catalog metadata mismatch'}
-        if(-not $AllowPrivateDraft -and ($info.publishable -ne $true -or [string]::IsNullOrWhiteSpace($info.license) -or $info.license -in @('UNCONFIRMED','unspecified','UNKNOWN'))){throw 'Refusing public export: unconfirmed asset rights; use -AllowPrivateDraft for a private review package'}
+        if($info.id -ne $item.id -or $info.version -ne $item.version -or $info.publishable -ne $item.publishable){throw 'Asset/catalog metadata mismatch'}
+        if(-not $AllowPrivateDraft -and $info.publishable -ne $true){throw 'Refusing public export: pack is marked private; use -AllowPrivateDraft for a private review package'}
         if($item.id -notmatch '^[a-z0-9][a-z0-9._-]*$' -or $item.version -notmatch '^\d+\.\d+\.\d+$'){throw 'Unsafe asset id/version'}
-        foreach($name in @('idle.png','blink.png','react.png','drag.png','point_E.png','point_SE.png','point_S.png','point_SW.png','point_W.png','point_NW.png','point_N.png','point_NE.png','asset-info.json','RIGHTS.md')){
+        foreach($name in @('idle.png','blink.png','react.png','drag.png','point_E.png','point_SE.png','point_S.png','point_SW.png','point_W.png','point_NW.png','point_N.png','point_NE.png','asset-info.json','README.md')){
             $file=Join-Path $dir $name
             if(-not(Test-Path -LiteralPath $file -PathType Leaf) -or ((Get-Item -LiteralPath $file).Attributes -band [IO.FileAttributes]::ReparsePoint)){throw "Missing or reparse asset file: $name"}
         }

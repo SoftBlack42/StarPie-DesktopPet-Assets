@@ -6,7 +6,6 @@
     "id",
     "name",
     "version",
-    "license",
     "publishable",
     "canvas",
     "frames"
@@ -29,12 +28,6 @@
       "pattern": "^\\d+\\.\\d+\\.\\d+$"
     },
     "maintainer": {
-      "type": "string"
-    },
-    "referenceAuthor": {
-      "type": "string"
-    },
-    "license": {
       "type": "string"
     },
     "publishable": {

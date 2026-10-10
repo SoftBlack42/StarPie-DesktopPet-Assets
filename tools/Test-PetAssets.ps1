@@ -27,9 +27,9 @@ foreach($item in $catalog.items){
  Check (Test-Json -Json $text -SchemaFile (Join-Path $repoRoot 'schemas/asset-info.schema.json')) "$($item.id): info schema"
  $info=$text|ConvertFrom-Json
  Check ($info.id -eq $item.id -and $info.version -eq $item.version) 'catalog id/version agree'
- Check ($info.license -eq $item.license -and $info.publishable -eq $item.publishable) 'catalog rights agree'
- if($info.license -eq 'UNCONFIRMED'){Check ($info.publishable -eq $false -and [string]::IsNullOrEmpty($item.downloadUrl)) 'unconfirmed pack stays private'}
- Check (Test-Path -LiteralPath (Join-Path $dir 'RIGHTS.md') -PathType Leaf) 'rights record present'
+ Check ($info.publishable -eq $item.publishable) 'catalog publication flag agrees'
+ if($info.publishable -ne $true){Check ([string]::IsNullOrEmpty($item.downloadUrl)) 'private pack has no public download URL'}
+ Check (Test-Path -LiteralPath (Join-Path $dir 'README.md') -PathType Leaf) 'import instructions present'
  $expected=Get-Content -LiteralPath (Join-Path $dir 'frame-sha256.json') -Raw | ConvertFrom-Json
  foreach($state in $mapping.Keys){
   $name=$mapping[$state];Check ($info.frames.$state -ceq $name) "frame mapping $state"

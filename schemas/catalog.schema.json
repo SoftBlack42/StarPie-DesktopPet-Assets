@@ -32,7 +32,6 @@
           "name",
           "version",
           "directory",
-          "license",
           "publishable"
         ]
       },

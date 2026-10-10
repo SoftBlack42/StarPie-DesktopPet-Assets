@@ -2,12 +2,12 @@
   "schemaVersion": 1,
   "catalog": "starpie-desktop-pet-assets",
   "maintainer": "SoftBlack42",
-  "updatedAtUtc": "2026-10-09T13:56:21.4614643Z",
+  "updatedAtUtc": "2026-10-10T02:39:25.7784959Z",
   "items": [
     {
       "id": "local.starpie-chibi",
       "name": "星绫",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "format": "starpie-desktop-pet-legacy-png",
       "formatVersion": 1,
       "directory": "pets/starpie-chibi",
@@ -18,12 +18,11 @@
       "framesCount": 12,
       "preview": "idle.png",
       "maintainer": "SoftBlack42",
-      "license": "LicenseRef-User-Confirmed-Distribution",
       "publishable": true,
-      "downloadUrl": "https://github.com/SoftBlack42/StarPie-DesktopPet-Assets/releases/download/xingling-v1.0.0/StarPie-PetAsset-local.starpie-chibi-1.0.0.zip",
-      "releaseTag": "xingling-v1.0.0",
-      "packageSha256": "ca7cd87cf86cb2346a6aca3a63a16f4b06637a3736af3cfeacd2584a32caf7ff",
-      "packageSize": 3463562
+      "downloadUrl": "https://github.com/SoftBlack42/StarPie-DesktopPet-Assets/releases/download/xingling-v1.0.1/StarPie-PetAsset-local.starpie-chibi-1.0.1.zip",
+      "releaseTag": "xingling-v1.0.1",
+      "packageSha256": "db6e4c53559e743f07bf9928bef507768a0212e4bdc6f58c0a44bfe75a7954df",
+      "packageSize": 3462771
     }
   ]
 }

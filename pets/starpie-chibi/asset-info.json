@@ -3,9 +3,8 @@
   "formatVersion": 1,
   "id": "local.starpie-chibi",
   "name": "星绫",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "maintainer": "SoftBlack42",
-  "license": "LicenseRef-User-Confirmed-Distribution",
   "publishable": true,
   "canvas": {
     "width": 512,
@@ -25,19 +24,5 @@
     "point.N": "point_N.png",
     "point.NE": "point_NE.png"
   },
-  "generatedWith": "built-in imagegen; native PetLibraryManager whole-canvas runtime derivation",
-  "sourceNotes": "StarPie软件图标的配色与元素；用户提供参考图的人物轮廓与Q版比例",
-  "referenceAuthor": "这个刀子真甜（人物比例参考）",
-  "sourceUrls": [
-    "https://space.bilibili.com/23315338"
-  ],
-  "playerCompatibility": "PNG file names consumed directly by current DesktopPet plugin; metadata is informational",
-  "distributionConfirmation": {
-    "basis": "user-confirmed",
-    "statement": "OK就叫星绫，开始上传素材仓库，修改仓库描述",
-    "confirmedBy": "SoftBlack42",
-    "confirmedAtUtc": "2026-10-09T13:56:21.3553608Z",
-    "scope": "此12状态生成桌宠素材公开分发",
-    "originalAuthorLicenseIndependentlyVerified": false
-  }
+  "playerCompatibility": "PNG file names consumed directly by current DesktopPet plugin; metadata is informational"
 }

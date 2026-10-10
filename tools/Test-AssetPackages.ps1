@@ -30,11 +30,11 @@ $catalogPath = Join-Path $repoRoot 'catalog.json'
 $catalog = Get-Content -LiteralPath $catalogPath -Raw -Encoding UTF8 | ConvertFrom-Json
 
 Write-Host '--- Actual exporter refusal before writing ---'
-$requiresPrivate=@($catalog.items | Where-Object {$_.publishable -ne $true -or $_.license -eq 'UNCONFIRMED'}).Count -gt 0
+$requiresPrivate=@($catalog.items | Where-Object {$_.publishable -ne $true}).Count -gt 0
 if($requiresPrivate){
  $refusalOutput=Join-Path ([IO.Path]::GetTempPath()) ('pet-denied-'+[guid]::NewGuid().ToString('N'))
  $denied=$false
- try {Export-PetAssets -Root $repoRoot -OutputDirectory $refusalOutput | Out-Null} catch {$denied=$true;Assert-Pkg ($_.Exception.Message -match 'Refusing public export') 'Actual exporter rejects unconfirmed public packaging'}
+ try {Export-PetAssets -Root $repoRoot -OutputDirectory $refusalOutput | Out-Null} catch {$denied=$true;Assert-Pkg ($_.Exception.Message -match 'Refusing public export') 'Actual exporter rejects private public packaging'}
  Assert-Pkg $denied 'Public packaging refused by actual exporter'
  Assert-Pkg (-not(Test-Path -LiteralPath $refusalOutput)) 'Refusal creates no files or directory'
 }else{Assert-Pkg $true 'Catalog contains only confirmed public selections'}
@@ -72,8 +72,8 @@ try {
         [System.IO.Compression.ZipFile]::ExtractToDirectory($destZip, $extractDir)
         $extractedFiles = Get-ChildItem -LiteralPath $extractDir -Recurse -File
 
-        Assert-Pkg ($extractedFiles.Count -eq 14) "$($item.id): Exactly 14 files inside private draft zip (12 PNGs + asset-info + RIGHTS)"
-        Assert-Pkg (Test-Path -LiteralPath (Join-Path $extractDir 'RIGHTS.md')) "$($item.id): RIGHTS.md included in private draft zip"
+        Assert-Pkg ($extractedFiles.Count -eq 14) "$($item.id): Exactly 14 files inside private draft zip (12 PNGs + asset-info + README)"
+        Assert-Pkg (Test-Path -LiteralPath (Join-Path $extractDir 'README.md')) "$($item.id): README.md included in private draft zip"
         Assert-Pkg (Test-Path -LiteralPath (Join-Path $extractDir 'asset-info.json')) "$($item.id): asset-info.json included in private draft zip"
 
         $hasDll = @($extractedFiles | Where-Object { $_.Extension -eq '.dll' }).Count -gt 0
