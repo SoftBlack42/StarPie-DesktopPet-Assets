@@ -1,0 +1,14 @@
+{
+  "idle.png": "897cbd4de707512171cea6033c0dabb30d616f5435344bbce6da54cafa80e0d8",
+  "blink.png": "bdf208b434a697c33c99aed52e7dfa64a5e2694b9a5b5b794f0e008eb2df7fdf",
+  "react.png": "3eee0dfce7364eaf1d84993ad3aa165b8f3eae204f9e0d835b5a3c23b465bf18",
+  "drag.png": "70220f6ac7f8d1263c8075c73a36cd1e4a2dee013bf9617a9442aa53ed0c858d",
+  "point_E.png": "375bd27eac024140ed0fc559af597edd332e65801d3649002ac41f62e285a5cb",
+  "point_SE.png": "384e5be02babcf17248583443fbe5054cc0c3ce540783e8b09a0987386e087fa",
+  "point_S.png": "cdecfae135d9980fcbf29eddea8acf4d0259fc460a0ab634ae7eaac35d2b85c8",
+  "point_SW.png": "7aa67d3f428ca9990689fdafc9fb54ed13d4e4beb17a342057647e7b1673fb38",
+  "point_W.png": "b4bdbe9ce02d3bd3096af8c4aed9cf2eeb41c51ad4e379ecdcb47ab283ff8843",
+  "point_NW.png": "dd41e0cd57590a62cc0dbab522c63f958ab1926abb0b5ff53ef4ed533084eeea",
+  "point_N.png": "be207ce22302c22bcccc9abcb299d37bbb4f07c8946239fa6ebeb0eb4a7d4447",
+  "point_NE.png": "811e1378d8f4760432d19fb1a6ed51d599def1edcb125c9e94bb6baede59d279"
+}

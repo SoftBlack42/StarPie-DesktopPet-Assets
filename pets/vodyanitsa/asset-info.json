@@ -1,0 +1,28 @@
+{
+  "format": "starpie-desktop-pet-legacy-png",
+  "formatVersion": 1,
+  "id": "local.vodyanitsa.chibi",
+  "name": "沃雅妮莎 · 鱼形点心",
+  "version": "1.0.0",
+  "maintainer": "SoftBlack42",
+  "publishable": true,
+  "canvas": {
+    "width": 512,
+    "height": 512
+  },
+  "frames": {
+    "idle": "idle.png",
+    "blink": "blink.png",
+    "react": "react.png",
+    "drag": "drag.png",
+    "point.E": "point_E.png",
+    "point.SE": "point_SE.png",
+    "point.S": "point_S.png",
+    "point.SW": "point_SW.png",
+    "point.W": "point_W.png",
+    "point.NW": "point_NW.png",
+    "point.N": "point_N.png",
+    "point.NE": "point_NE.png"
+  },
+  "playerCompatibility": "PNG file names consumed directly by current DesktopPet plugin; metadata is informational"
+}

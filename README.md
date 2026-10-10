@@ -1,21 +1,26 @@
 # StarPie 桌宠素材
 
-当前提供 **星绫**（小名「绫绫」）v1.0.1：蓝紫长发、四角星与轮盘发饰、白色指针胸针。包含常驻、眨眼、点击反馈、悬空拖动和八方向姿态，共 12 张 512×512 透明 PNG。
+当前提供 **大肥鱼、沃雅妮莎、星绫和 Stocking** 四套桌宠形象。每套包含常驻、眨眼、点击反馈、悬空拖动和八方向姿态，共 12 张 512×512 透明 PNG；合集包含 48 张运行素材。
 
-![星绫](pets/starpie-chibi/idle.png)
+| 形象 | 预览 | 单独下载 |
+| --- | --- | --- |
+| 大肥鱼（原蓝鲸女仆） | <img src="pets/bluewhale-maid/idle.png" alt="大肥鱼" width="120"> | [v1.0.1](https://github.com/SoftBlack42/StarPie-DesktopPet-Assets/releases/download/pets-2026.10.10.1/StarPie-PetAsset-local.bluewhale-maid-1.0.1.zip) |
+| 沃雅妮莎 · 鱼形点心 | <img src="pets/vodyanitsa/idle.png" alt="沃雅妮莎" width="120"> | [v1.0.0](https://github.com/SoftBlack42/StarPie-DesktopPet-Assets/releases/download/pets-2026.10.10.1/StarPie-PetAsset-local.vodyanitsa.chibi-1.0.0.zip) |
+| 星绫（小名「绫绫」） | <img src="pets/starpie-chibi/idle.png" alt="星绫" width="120"> | [v1.0.1](https://github.com/SoftBlack42/StarPie-DesktopPet-Assets/releases/download/pets-2026.10.10.1/StarPie-PetAsset-local.starpie-chibi-1.0.1.zip) |
+| Stocking | <img src="pets/stocking/idle.png" alt="Stocking" width="120"> | [v1.0.0](https://github.com/SoftBlack42/StarPie-DesktopPet-Assets/releases/download/pets-2026.10.10.1/StarPie-PetAsset-local.stocking-1.0.0.zip) |
 
 ## 下载与使用
 
-[下载星绫 v1.0.1](https://github.com/SoftBlack42/StarPie-DesktopPet-Assets/releases/download/xingling-v1.0.1/StarPie-PetAsset-local.starpie-chibi-1.0.1.zip) · [SHA-256 校验](https://github.com/SoftBlack42/StarPie-DesktopPet-Assets/releases/download/xingling-v1.0.1/SHA256SUMS.txt)
+[下载四套素材合集](https://github.com/SoftBlack42/StarPie-DesktopPet-Assets/releases/download/pets-2026.10.10.1/StarPie-DesktopPet-Assets-2026.10.10.1.zip) · [SHA-256 校验](https://github.com/SoftBlack42/StarPie-DesktopPet-Assets/releases/download/pets-2026.10.10.1/SHA256SUMS.txt)
 
-解压后，在 StarPie「管理桌宠 → 导入文件夹」选择解压目录，然后选择「星绫」并使用此形象。当前插件不直接导入 ZIP。
+单独包解压后，在 StarPie「管理桌宠 → 导入文件夹」选择解压目录，再选择形象并使用。合集需选择其中的角色子文件夹，例如「大肥鱼」，不选择合集最外层。当前插件不直接导入 ZIP。
 
 需要支持该 12 状态 PNG 格式的桌宠插件和匹配的主程序。当前桌宠插件候选要求 SDK 1.11；对应的 StarPie v1.8.0-beta.7 正在准备。本仓库只提供素材，不包含主程序或插件。
 
 ## 初期试用
 
-目前用于桌宠插件的早期功能试用，先验证导入、形象切换、悬空拖动和轮盘方向联动。v1.0.1 只更新说明和素材信息，12 张 PNG 与 v1.0.0 完全一致。更完整的使用教程、素材目录和反馈方式随配套版本逐步完善。
+目前用于桌宠插件的早期功能试用，先验证导入、形象切换、悬空拖动和轮盘方向联动。大肥鱼仅更新名称与说明，蓝鲸女仆原有图片不变；星绫图片与已有 v1.0.1 下载包相同。历史迭代草稿、参考原图和废弃方案不重复收入合集。
 
 ## 维护工具
 
-`tools/Test-PetAssets.ps1` 检查素材；`tools/Pack-PetAssets.ps1 -PackId local.starpie-chibi` 生成星绫包。角色 ID 保持稳定，名称变更不改变 12 状态文件名。最终下载包的 SHA-256 附于 Release。
+`tools/Test-PetAssets.ps1` 检查全部素材；`tools/Pack-PetAssets.ps1` 生成四套单独包，`-PackId` 可选择一套。角色 ID 和 12 状态文件名保持稳定。最终下载包的 SHA-256 附于 Release。
