@@ -1,21 +1,23 @@
 # StarPie 桌宠素材
 
+由 [Star-Pie 组织](https://github.com/Star-Pie)托管，SoftBlack42 维护。素材独立下载，不随主程序或桌宠插件安装包携带。
+
 当前提供 **大肥鱼、沃雅妮莎、星绫和 Stocking** 四套桌宠形象。每套包含常驻、眨眼、点击反馈、悬空拖动和八方向姿态，共 12 张 512×512 透明 PNG；合集包含 48 张运行素材。
 
 | 形象 | 预览 | 单独下载 |
 | --- | --- | --- |
-| 大肥鱼（原蓝鲸女仆） | <img src="pets/bluewhale-maid/idle.png" alt="大肥鱼" width="120"> | [v1.0.1](https://github.com/SoftBlack42/StarPie-DesktopPet-Assets/releases/download/pets-2026.10.10.1/StarPie-PetAsset-local.bluewhale-maid-1.0.1.zip) |
-| 沃雅妮莎 · 鱼形点心 | <img src="pets/vodyanitsa/idle.png" alt="沃雅妮莎" width="120"> | [v1.0.0](https://github.com/SoftBlack42/StarPie-DesktopPet-Assets/releases/download/pets-2026.10.10.1/StarPie-PetAsset-local.vodyanitsa.chibi-1.0.0.zip) |
-| 星绫（小名「绫绫」） | <img src="pets/starpie-chibi/idle.png" alt="星绫" width="120"> | [v1.0.1](https://github.com/SoftBlack42/StarPie-DesktopPet-Assets/releases/download/pets-2026.10.10.1/StarPie-PetAsset-local.starpie-chibi-1.0.1.zip) |
-| Stocking | <img src="pets/stocking/idle.png" alt="Stocking" width="120"> | [v1.0.0](https://github.com/SoftBlack42/StarPie-DesktopPet-Assets/releases/download/pets-2026.10.10.1/StarPie-PetAsset-local.stocking-1.0.0.zip) |
+| 大肥鱼（原蓝鲸女仆） | <img src="pets/bluewhale-maid/idle.png" alt="大肥鱼" width="120"> | [v1.0.1](https://github.com/Star-Pie/StarPie-DesktopPet-Assets/releases/download/pets-2026.10.10.1/StarPie-PetAsset-local.bluewhale-maid-1.0.1.zip) |
+| 沃雅妮莎 · 鱼形点心 | <img src="pets/vodyanitsa/idle.png" alt="沃雅妮莎" width="120"> | [v1.0.0](https://github.com/Star-Pie/StarPie-DesktopPet-Assets/releases/download/pets-2026.10.10.1/StarPie-PetAsset-local.vodyanitsa.chibi-1.0.0.zip) |
+| 星绫（小名「绫绫」） | <img src="pets/starpie-chibi/idle.png" alt="星绫" width="120"> | [v1.0.1](https://github.com/Star-Pie/StarPie-DesktopPet-Assets/releases/download/pets-2026.10.10.1/StarPie-PetAsset-local.starpie-chibi-1.0.1.zip) |
+| Stocking | <img src="pets/stocking/idle.png" alt="Stocking" width="120"> | [v1.0.0](https://github.com/Star-Pie/StarPie-DesktopPet-Assets/releases/download/pets-2026.10.10.1/StarPie-PetAsset-local.stocking-1.0.0.zip) |
 
 ## 下载与使用
 
-[下载四套素材合集](https://github.com/SoftBlack42/StarPie-DesktopPet-Assets/releases/download/pets-2026.10.10.1/StarPie-DesktopPet-Assets-2026.10.10.1.zip) · [SHA-256 校验](https://github.com/SoftBlack42/StarPie-DesktopPet-Assets/releases/download/pets-2026.10.10.1/SHA256SUMS.txt)
+[下载四套素材合集](https://github.com/Star-Pie/StarPie-DesktopPet-Assets/releases/download/pets-2026.10.10.1/StarPie-DesktopPet-Assets-2026.10.10.1.zip) · [SHA-256 校验](https://github.com/Star-Pie/StarPie-DesktopPet-Assets/releases/download/pets-2026.10.10.1/SHA256SUMS.txt)
 
 单独包解压后，在 StarPie「管理桌宠 → 导入文件夹」选择解压目录，再选择形象并使用。合集需选择其中的角色子文件夹，例如「大肥鱼」，不选择合集最外层。当前插件不直接导入 ZIP。
 
-需要支持该 12 状态 PNG 格式的桌宠插件和匹配的主程序。当前桌宠插件候选要求 SDK 1.11；对应的 StarPie v1.8.0-beta.7 正在准备。本仓库只提供素材，不包含主程序或插件。
+需要支持该 12 状态 PNG 格式的桌宠插件和匹配的主程序。桌宠插件 0.1.6 正式版要求 SDK 1.11，可在 StarPie v1.8.0-beta.7 的官方插件市场安装。本仓库只提供素材，不包含主程序或插件。
 
 ## 初期试用
 
