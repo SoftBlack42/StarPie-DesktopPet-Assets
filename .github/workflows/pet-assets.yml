@@ -1,0 +1,143 @@
+name: Validate and release pet assets
+
+on:
+  pull_request:
+    paths:
+      - 'pets/**'
+      - 'schemas/**'
+      - 'tools/**'
+      - 'catalog.json'
+      - 'README.md'
+      - '.github/workflows/pet-assets.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'pets/**'
+      - 'schemas/**'
+      - 'tools/**'
+      - 'catalog.json'
+      - 'README.md'
+      - '.github/workflows/pet-assets.yml'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Build packages and preview catalog/README without publishing or pushing'
+        type: boolean
+        required: true
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pet-assets-${{ github.event_name == 'pull_request' && github.event.pull_request.number || 'publication' }}
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  validate:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Generate proposed source catalog
+        run: ./tools/Update-PetCatalog.ps1 -OutputDirectory dist/validation
+      - name: Validate every source asset
+        run: ./tools/Test-PetAssets.ps1 -CatalogPath dist/validation/catalog.json
+      - name: Test public and private packaging
+        run: ./tools/Test-AssetPackages.ps1 -OutputDirectory dist/package-tests -AllowPrivateDraft
+      - name: Test publication and README generation with mocked GitHub
+        run: ./tools/Test-ReleaseWorkflow.ps1
+
+      - name: Generate release previews before the first merge
+        if: github.event_name == 'pull_request'
+        run: ./tools/Publish-PetAssets.ps1 -DryRun
+      - name: Upload PR release previews
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: pet-assets-pr-preview-${{ github.run_id }}
+          path: |
+            dist/release/catalog.json
+            dist/release/README.md
+            dist/release/packages/**/*.zip
+            dist/release/packages/**/SHA256SUMS.txt
+          if-no-files-found: error
+
+  publish:
+    needs: validate
+    if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || (github.event_name == 'workflow_dispatch' && inputs.dry_run))
+    runs-on: windows-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPOSITORY: ${{ github.repository }}
+      EXPECTED_SHA: ${{ github.sha }}
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - name: Reject an outdated run before publication
+        run: |
+          $head = git rev-parse HEAD
+          if ($LASTEXITCODE -ne 0 -or $head -cne $env:EXPECTED_SHA) {
+            throw 'Checkout does not match this run; publication stopped.'
+          }
+          if ($env:DRY_RUN -ne 'true') {
+            git fetch origin main
+            if ($LASTEXITCODE -ne 0) { throw 'Unable to check current main.' }
+            $remote = git rev-parse origin/main
+            if ($LASTEXITCODE -ne 0 -or $remote -cne $env:EXPECTED_SHA) {
+              throw 'main moved after this run was queued; rerun against current main.'
+            }
+          }
+      - name: Build, verify, and publish independent packages
+        run: |
+          ./tools/Publish-PetAssets.ps1 -Repository $env:REPOSITORY -TargetCommit $env:EXPECTED_SHA -DryRun:($env:DRY_RUN -eq 'true')
+      - name: Upload dry-run previews
+        if: env.DRY_RUN == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: pet-assets-dry-run-${{ github.run_id }}
+          path: |
+            dist/release/catalog.json
+            dist/release/README.md
+            dist/release/receipts.json
+            dist/release/packages/**/*.zip
+            dist/release/packages/**/SHA256SUMS.txt
+          if-no-files-found: error
+      - name: Update repository catalog and README together
+        if: env.DRY_RUN != 'true'
+        run: |
+          $PSNativeCommandUseErrorActionPreference = $false
+          git fetch origin main
+          if ($LASTEXITCODE -ne 0) { throw 'Unable to check current main.' }
+          $remote = git rev-parse origin/main
+          if ($LASTEXITCODE -ne 0 -or $remote -cne $env:EXPECTED_SHA) {
+            throw 'main changed during publication; packages are preserved. Rerun to reconcile matching Releases.'
+          }
+          Copy-Item -LiteralPath dist/release/catalog.json -Destination catalog.json
+          Copy-Item -LiteralPath dist/release/README.md -Destination README.md
+          git diff --quiet -- catalog.json README.md
+          $diff = $LASTEXITCODE
+          if ($diff -eq 0) { Write-Host 'Metadata is already up to date.'; exit 0 }
+          if ($diff -ne 1) { throw 'Unable to compare repository metadata.' }
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- catalog.json README.md
+          if ($LASTEXITCODE -ne 0) { throw 'Unable to stage generated metadata.' }
+          git commit -m 'chore(assets): refresh catalog and README' -m '- Synchronize source metadata and verified independent package links'
+          if ($LASTEXITCODE -ne 0) { throw 'Unable to commit generated metadata.' }
+          git push origin HEAD:main
+          if ($LASTEXITCODE -ne 0) {
+            throw 'Metadata push failed; check main protection and Actions write permissions. Do not force-push; rerun after resolving permissions.'
+          }
