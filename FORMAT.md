@@ -1,7 +1,7 @@
 # StarPie 桌宠素材格式规范 (FORMAT.md)
 
 版本: 1.0.0
-适用插件: `io.github.softblack42.desktoppet` (StarPie.Plugin.DesktopPet)
+适用插件: `starpie.plugin.desktoppet` (StarPie.Plugin.DesktopPet 0.1.6 / SDK 1.11)，最低 StarPie v1.8.0-beta.7。旧独立版 `io.github.softblack42.desktoppet` 使用相同 PNG 帧格式。
 
 ## 1. 概览
 StarPie 桌宠当前素材格式采用 12 帧静态切图目录，由透明 PNG 图片及可选的 `asset-info.json` 组成。
