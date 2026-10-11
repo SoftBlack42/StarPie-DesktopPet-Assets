@@ -91,7 +91,7 @@ try {
     Reject {Get-PetCatalogPlan -Root $root} 'Duplicate asset id' 'duplicate source IDs are rejected'
     $private.id='local.fixture.private';Save-Json $privatePath $private
     Save-Json $catalogPath $empty
-    $global:PetReleaseMock=[pscustomobject]@{Calls=[Collections.Generic.List[object]]::new();Releases=@{};ApiError=$false;Orphan=$false}
+    $global:PetReleaseMock=[pscustomobject]@{Calls=[Collections.Generic.List[object]]::new();Releases=@{};ApiError=$false;Orphan=$false;DuplicateDraft=$false}
     function global:gh {
         $arguments=@($args)
         $global:LASTEXITCODE=0
@@ -101,7 +101,22 @@ try {
             if($state.ApiError){$global:LASTEXITCODE=1;return 'gh: rate limited (HTTP 403)'}
             if($arguments[1] -match '/releases/tags/(.+)$') {
                 $tag=[uri]::UnescapeDataString($Matches[1])
-                if($state.Releases.ContainsKey($tag)){return ($state.Releases[$tag] | ConvertTo-Json -Depth 20)}
+                # The real tag endpoint excludes drafts, even for authenticated owners.
+                if($state.Releases.ContainsKey($tag) -and -not $state.Releases[$tag].draft){return ($state.Releases[$tag] | ConvertTo-Json -Depth 20)}
+            } elseif($arguments[1] -match '/releases\?per_page=100$') {
+                if(-not $arguments.Contains('--paginate')){throw 'Draft lookup must search all release pages'}
+                $query=$arguments[[array]::IndexOf($arguments,'--jq')+1]
+                if($query -notmatch 'select\(\.tag_name == (.+)\) \| \.id'){throw 'Unexpected release list filter'}
+                $wanted=$Matches[1] | ConvertFrom-Json
+                foreach($release in $state.Releases.Values) {
+                    if($release.tag_name -ceq $wanted){"$($release.id)"}
+                }
+                if($state.DuplicateDraft){'9000'}
+                return
+            } elseif($arguments[1] -match '/releases/(\d+)$') {
+                $id=[long]$Matches[1]
+                $release=@($state.Releases.Values | Where-Object id -EQ $id)
+                if($release.Count -eq 1){return ($release[0] | ConvertTo-Json -Depth 20)}
             } elseif($arguments[1] -match '/git/ref/tags/' -and $state.Orphan){return '{"object":{"sha":"orphan"}}'}
             $global:LASTEXITCODE=1;return 'gh: Not Found (HTTP 404)'
         }
@@ -109,7 +124,7 @@ try {
         if($arguments[0] -ne 'release'){throw 'Unexpected mock command'}
         if($arguments[1] -eq 'create') {
             if($state.Releases.ContainsKey($tag)){throw 'Mock refusing existing release'}
-            $state.Releases[$tag]=[pscustomobject]@{draft=$true;prerelease=$false;tag_name=$tag;assets=@()}
+            $state.Releases[$tag]=[pscustomobject]@{id=1000+$state.Releases.Count;draft=$true;prerelease=$false;tag_name=$tag;assets=@()}
         }
         if($arguments[1] -in @('create','upload')) {
             foreach($arg in $arguments) {
@@ -141,6 +156,8 @@ try {
     $state=$global:PetReleaseMock
     $tag='pet-local.fixture.public-v1.0.0'
     Check ($state.Releases.Count -eq 1 -and -not $state.Releases[$tag].draft) 'each public pack gets its own public Release'
+    Check (@($state.Calls | Where-Object {$_[0] -eq 'api' -and $_[1] -match '/releases\?per_page=100$'}).Count -gt 0) 'draft creation is verified through the paginated release list'
+    Check (@($state.Calls | Where-Object {$_[0] -eq 'api' -and $_[1] -match '/releases/\d+$'}).Count -gt 0) 'new draft assets are fetched by numeric Release ID'
     Check (($state.Releases[$tag].assets.name | Sort-Object) -join ',' -ceq 'SHA256SUMS.txt,StarPie-PetAsset-local.fixture.public-1.0.0.zip') 'Release uploads ZIP and checksum only, never catalog or README'
     $staged=Get-Content -LiteralPath (Join-Path $output 'catalog.json') -Raw | ConvertFrom-Json
     $publicItem=@($staged.items | Where-Object id -CEQ 'local.fixture.public')[0]
@@ -156,6 +173,12 @@ try {
     $state.Releases[$tag].assets[0].digest=$null
     $null=& $publish -Root $root -OutputDirectory (Join-Path $temp 'download-verify') -TargetCommit ('a'*40) 6>&1
     Check (@($state.Calls | Where-Object {$_[0] -eq 'release' -and $_[1] -eq 'download'}).Count -gt 0) 'missing GitHub digest falls back to downloading and hashing the asset'
+    $state.Releases[$tag].draft=$true;$state.DuplicateDraft=$true;$state.Calls.Clear()
+    Reject {& $publish -Root $root -OutputDirectory (Join-Path $temp 'duplicate-drafts') -TargetCommit ('a'*40) 6>&1} 'Multiple Releases' 'ambiguous same-tag drafts fail instead of choosing one'
+    Check (@($state.Calls | Where-Object {$_[0] -eq 'release' -and $_[1] -in @('create','upload','edit')}).Count -eq 0) 'ambiguous drafts cause no remote mutation'
+    $state.Releases[$tag].draft=$false;$state.DuplicateDraft=$false;$state.Releases[$tag].prerelease=$true
+    Reject {& $publish -Root $root -OutputDirectory (Join-Path $temp 'unexpected-prerelease') -TargetCommit ('a'*40) 6>&1} 'Unexpected prerelease' 'an actual prerelease is still rejected separately'
+    $state.Releases[$tag].prerelease=$false
     $state.Releases[$tag].assets[0].digest='sha256:'+('0'*64)
     $state.Calls.Clear()
     Reject {& $publish -Root $root -OutputDirectory (Join-Path $temp 'collision') -TargetCommit ('a'*40) 6>&1} 'checksum mismatch' 'existing same-tag different bytes fail closed'

@@ -29,8 +29,21 @@ function Invoke-GitHub([string[]]$Arguments,[switch]$AllowNotFound) {
 }
 function Get-Release([string]$Tag) {
     $json=Invoke-GitHub -Arguments @('api',"repos/$Repository/releases/tags/$([uri]::EscapeDataString($Tag))") -AllowNotFound
-    if($json){return ($json | ConvertFrom-Json)}
-    return $null
+    if(-not $json) {
+        # The tag endpoint exposes published Releases only. Drafts must be found
+        # in the authenticated list and then read by their numeric Release ID.
+        $tagLiteral=ConvertTo-Json -InputObject $Tag -Compress
+        $query=".[] | select(.tag_name == $tagLiteral) | .id"
+        $releaseIds=Invoke-GitHub -Arguments @('api',"repos/$Repository/releases?per_page=100",'--paginate','--jq',$query)
+        $ids=@(([string]$releaseIds -split '\r?\n') | ForEach-Object {$_.Trim()} | Where-Object {$_} | Sort-Object -Unique)
+        if(-not $ids.Count){return $null}
+        if($ids.Count -ne 1){throw "Multiple Releases found for tag; resolve the ambiguity manually: $Tag"}
+        if($ids[0] -cnotmatch '^\d+$'){throw "Invalid Release ID returned for tag: $Tag"}
+        $json=Invoke-GitHub -Arguments @('api',"repos/$Repository/releases/$($ids[0])")
+    }
+    $release=$json | ConvertFrom-Json
+    if($release.tag_name -cne $Tag){throw "Release tag mismatch: $Tag / $($release.tag_name)"}
+    return $release
 }
 function Assert-ReleaseAssets($Release,[object[]]$Files,[string]$Tag) {
     foreach($file in $Files) {
@@ -71,7 +84,8 @@ foreach($source in $plan.Releases) {
             if($missing.Count){$null=Invoke-GitHub -Arguments (@('release','upload',$source.ReleaseTag,'--repo',$Repository)+@($missing | ForEach-Object Path))}
             $release=Get-Release -Tag $source.ReleaseTag
         }
-        if(-not $release -or $release.prerelease){throw "Missing or unexpected prerelease: $($source.ReleaseTag)"}
+        if(-not $release){throw "Release not found after draft creation or recovery: $($source.ReleaseTag)"}
+        if($release.prerelease){throw "Unexpected prerelease: $($source.ReleaseTag)"}
         Assert-ReleaseAssets -Release $release -Files $files -Tag $source.ReleaseTag
         if($release.draft){$null=Invoke-GitHub -Arguments @('release','edit',$source.ReleaseTag,'--repo',$Repository,'--draft=false')}
         $release=Get-Release -Tag $source.ReleaseTag
