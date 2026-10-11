@@ -33,6 +33,82 @@
           "version",
           "directory",
           "publishable"
+        ],
+        "properties": {
+          "downloadUrl": {
+            "type": "string",
+            "pattern": "^https://github\\.com/[^/]+/[^/]+/releases/download/"
+          },
+          "publishable": {
+            "type": "boolean"
+          },
+          "releaseTag": {
+            "type": "string",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9._-]*$"
+          },
+          "packageSha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "sourceFingerprint": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "packageSize": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "directory": {
+            "type": "string",
+            "pattern": "^pets/[^/\\\\:]+$"
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$"
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "required": [
+                "downloadUrl"
+              ]
+            },
+            "then": {
+              "required": [
+                "releaseTag",
+                "packageSha256",
+                "packageSize"
+              ]
+            }
+          },
+          {
+            "if": {
+              "required": [
+                "publishable"
+              ],
+              "properties": {
+                "publishable": {
+                  "const": false
+                }
+              }
+            },
+            "then": {
+              "not": {
+                "required": [
+                  "downloadUrl"
+                ]
+              }
+            }
+          }
         ]
       },
       "minItems": 0

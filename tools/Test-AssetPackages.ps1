@@ -1,15 +1,12 @@
 [CmdletBinding()]
 param(
     [string]$OutputDirectory = 'dist',
+    [string]$Root = (Split-Path -Parent $PSScriptRoot),
     [switch]$AllowPrivateDraft
 )
 
 $ErrorActionPreference = 'Stop'
-$repoRoot = $PSScriptRoot
-while ($repoRoot -and -not (Test-Path -LiteralPath (Join-Path $repoRoot '.git'))) {
-    $repoRoot = Split-Path -Parent $repoRoot
-}
-if (-not $repoRoot) { throw 'Unable to find assets repo root' }
+$repoRoot = $Root
 
 Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -27,7 +24,7 @@ Write-Host " StarPie Desktop Pet Asset Package Gate (Test-AssetPackages)"
 Write-Host "============================================================"
 
 $catalogPath = Join-Path $repoRoot 'catalog.json'
-$catalog = Get-Content -LiteralPath $catalogPath -Raw -Encoding UTF8 | ConvertFrom-Json
+$catalog = [pscustomobject]@{items=@(Get-PetAssetSources -Root $repoRoot | ForEach-Object {[pscustomobject]@{id=$_.Id;version=$_.Version;directory=$_.Directory;publishable=$_.Info.publishable}})}
 
 Write-Host '--- Actual exporter refusal before writing ---'
 $requiresPrivate=@($catalog.items | Where-Object {$_.publishable -ne $true}).Count -gt 0
@@ -94,6 +91,22 @@ try {
         Write-Host "Draft package ready: $zipName [SHA256: $sha1, Size: $size1 bytes]"
     }
 
+    Write-Host '--- 3. Deterministic Public Packages ---'
+    foreach($item in @($catalog.items | Where-Object publishable -EQ $true)) {
+        $first=@(Export-PetAssets -Root $repoRoot -PackId $item.id -OutputDirectory (Join-Path $resolvedOutputDir 'public'))[0]
+        $second=@(Export-PetAssets -Root $repoRoot -PackId $item.id -OutputDirectory (Join-Path $tempVerifyDir 'public'))[0]
+        Assert-Pkg (-not $first.PrivateDraft -and $first.AssetName -ceq "StarPie-PetAsset-$($item.id)-$($item.version).zip") 'public name has no draft marker'
+        Assert-Pkg ($first.Sha256 -ceq $second.Sha256 -and $first.Size -eq $second.Size) 'public package reproducibility'
+        Assert-Pkg ($first.Sha256 -ceq (Get-FileHash -LiteralPath $first.Path -Algorithm SHA256).Hash.ToLowerInvariant()) 'public receipt checksum agrees'
+        $zip=[IO.Compression.ZipFile]::OpenRead($first.Path)
+        try {
+            Assert-Pkg ($zip.Entries.Count -eq 14) 'public package contains exactly 14 files'
+            Assert-Pkg (@($zip.Entries | Where-Object FullName -Like '*.png').Count -eq 12) 'public package contains 12 PNG frames'
+            foreach($entry in $zip.Entries) {
+                Assert-Pkg ($entry.FullName -notmatch '[/\\]' -and $entry.FullName -match '^(idle|blink|react|drag|point_[A-Z]{1,2})\.png$|^(asset-info\.json|README\.md)$') 'public package has only root whitelisted files'
+            }
+        } finally {$zip.Dispose()}
+    }
     Write-Host "------------------------------------------------------------"
     Write-Host "PASS: $passCount asset package assertions verified successfully!"
 }

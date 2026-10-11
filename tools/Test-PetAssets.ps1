@@ -1,14 +1,14 @@
-﻿[CmdletBinding()]
-param()
+[CmdletBinding()]
+param([string]$Root=(Split-Path -Parent $PSScriptRoot),[string]$CatalogPath='catalog.json')
 $ErrorActionPreference='Stop'
-$repoRoot=Split-Path -Parent $PSScriptRoot
+$repoRoot=$Root
 Import-Module (Join-Path $PSScriptRoot 'PetAssets.psm1') -Force
 Add-Type -AssemblyName PresentationCore
 $definition='public static class PetPixelChecks { public static bool Valid(byte[] data,int width,int height) {bool transparent=false,solid=false;for(int y=0;y<height;y++) for(int x=0;x<width;x++){int alpha=data[(y*width+x)*4+3];if(alpha==0)transparent=true;if(alpha>=250)solid=true;if((x==0||y==0||x==width-1||y==height-1)&&alpha>=64)return false;}return transparent&&solid;}}'
 if(-not ('PetPixelChecks' -as [type])){Add-Type -TypeDefinition $definition}
 $count=0
 function Check([bool]$ok,[string]$message){if(-not $ok){throw "ASSET VALIDATION FAILED: $message"};$script:count++;Write-Host " [PASS] $message"}
-$catalogText=Get-Content -LiteralPath (Join-Path $repoRoot 'catalog.json') -Raw -Encoding utf8
+$catalogText=Get-Content -LiteralPath $(if([IO.Path]::IsPathRooted($CatalogPath)){$CatalogPath}else{Join-Path $repoRoot $CatalogPath}) -Raw -Encoding utf8
 Check (Test-Json -Json $catalogText -SchemaFile (Join-Path $repoRoot 'schemas/catalog.schema.json')) 'catalog schema validated'
 $catalog=$catalogText|ConvertFrom-Json
 if($catalog.items.Count -eq 0){
@@ -18,6 +18,8 @@ if($catalog.items.Count -eq 0){
  Write-Host "PASS: $count asset assertions (empty catalog)"
  return
 }
+$sources=@(Get-PetAssetSources -Root $repoRoot)
+Check ($sources.Count -eq $catalog.items.Count) 'catalog covers all source directories'
 $seen=[Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
 $mapping=[ordered]@{idle='idle.png';blink='blink.png';react='react.png';drag='drag.png';'point.E'='point_E.png';'point.SE'='point_SE.png';'point.S'='point_S.png';'point.SW'='point_SW.png';'point.W'='point_W.png';'point.NW'='point_NW.png';'point.N'='point_N.png';'point.NE'='point_NE.png'}
 foreach($item in $catalog.items){
