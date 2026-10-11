@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "catalog": "starpie-desktop-pet-assets",
   "maintainer": "SoftBlack42",
-  "updatedAtUtc": "2026-10-11T05:29:01.8180627Z",
+  "updatedAtUtc": "2026-10-11T06:13:07.7740043Z",
   "items": [
     {
       "id": "local.bluewhale-maid",
@@ -18,11 +18,7 @@
       "framesCount": 12,
       "preview": "idle.png",
       "publishable": true,
-      "maintainer": "SoftBlack42",
-      "releaseTag": "pets-2026.10.10.1",
-      "downloadUrl": "https://github.com/Star-Pie/StarPie-DesktopPet-Assets/releases/download/pets-2026.10.10.1/StarPie-PetAsset-local.bluewhale-maid-1.0.1.zip",
-      "packageSha256": "bc5b97172e0336377d2851226dbdee7df6349a129738df2af04dab98fb71af70",
-      "packageSize": 3530122
+      "maintainer": "SoftBlack42"
     },
     {
       "id": "local.vodyanitsa.chibi",
@@ -38,11 +34,7 @@
       "framesCount": 12,
       "preview": "idle.png",
       "publishable": true,
-      "maintainer": "SoftBlack42",
-      "releaseTag": "pets-2026.10.10.1",
-      "downloadUrl": "https://github.com/Star-Pie/StarPie-DesktopPet-Assets/releases/download/pets-2026.10.10.1/StarPie-PetAsset-local.vodyanitsa.chibi-1.0.0.zip",
-      "packageSha256": "b86b44a5e58bf6148b6944c436ab6dedec06e821c80a7d13bfd2985f50800a29",
-      "packageSize": 3469863
+      "maintainer": "SoftBlack42"
     },
     {
       "id": "local.starpie-chibi",
@@ -58,11 +50,7 @@
       "framesCount": 12,
       "preview": "idle.png",
       "publishable": true,
-      "maintainer": "SoftBlack42",
-      "releaseTag": "pets-2026.10.10.1",
-      "downloadUrl": "https://github.com/Star-Pie/StarPie-DesktopPet-Assets/releases/download/pets-2026.10.10.1/StarPie-PetAsset-local.starpie-chibi-1.0.1.zip",
-      "packageSha256": "db6e4c53559e743f07bf9928bef507768a0212e4bdc6f58c0a44bfe75a7954df",
-      "packageSize": 3462771
+      "maintainer": "SoftBlack42"
     },
     {
       "id": "local.stocking",
@@ -78,11 +66,7 @@
       "framesCount": 12,
       "preview": "idle.png",
       "publishable": true,
-      "maintainer": "SoftBlack42",
-      "releaseTag": "pets-2026.10.10.1",
-      "downloadUrl": "https://github.com/Star-Pie/StarPie-DesktopPet-Assets/releases/download/pets-2026.10.10.1/StarPie-PetAsset-local.stocking-1.0.0.zip",
-      "packageSha256": "61714b212a010559e0ae2432c57e9894db95326207aa16c9a2f19b66fd6dbbc4",
-      "packageSize": 2424655
+      "maintainer": "SoftBlack42"
     }
   ],
   "bundle": {

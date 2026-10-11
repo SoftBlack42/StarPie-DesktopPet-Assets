@@ -66,7 +66,7 @@ foreach($source in $plan.Releases) {
     $sumPath=Join-Path $directory 'SHA256SUMS.txt'
     [IO.File]::WriteAllText($sumPath,"$($receipt.Sha256)  $($receipt.AssetName)`n",[Text.Encoding]::ASCII)
     $notesPath=Join-Path $directory 'release-notes.md'
-    $notes="# $($source.Info.name) v$($source.Version)`n`nID: ``$($source.Id)```n`n解压 ZIP 后，在桌宠插件的「管理桌宠 → 导入本地文件夹」选择解压目录。包包含 12 张 PNG、asset-info.json 和 README.md，不包含主程序、插件或用户数据。`n`nSHA-256: ``$($receipt.Sha256)```n"
+    $notes="ID: ``$($source.Id)```n`n解压 ZIP 后，在桌宠插件的「管理桌宠 → 导入本地文件夹」选择解压目录。包包含 12 张 PNG、asset-info.json 和 README.md，不包含主程序、插件或用户数据。`n`nSHA-256: ``$($receipt.Sha256)```n"
     [IO.File]::WriteAllText($notesPath,$notes,[Text.UTF8Encoding]::new($false))
     $files=@([pscustomobject]@{Name=$receipt.AssetName;Path=$receipt.Path;Size=$receipt.Size;Sha256=$receipt.Sha256},[pscustomobject]@{Name='SHA256SUMS.txt';Path=$sumPath;Size=(Get-Item -LiteralPath $sumPath).Length;Sha256=(Get-FileHash -LiteralPath $sumPath -Algorithm SHA256).Hash.ToLowerInvariant()})
     if(-not $DryRun) {

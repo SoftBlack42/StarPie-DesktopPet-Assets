@@ -151,11 +151,16 @@ try {
     Check ($global:PetReleaseMock.Calls.Count -eq 0 -and $global:PetReleaseMock.Releases.Count -eq 0) 'dry-run makes zero GitHub calls'
     Check (Test-Path -LiteralPath (Join-Path $dry 'catalog.json')) 'dry-run produces proposed catalog and README'
     Check ((Get-Content -LiteralPath $catalogPath -Raw | ConvertFrom-Json).items.Count -eq 0) 'dry-run never writes repository metadata'
+    $notes=Get-Content -LiteralPath (Join-Path $dry 'packages/pet-local.fixture.public-v1.0.0/release-notes.md') -Raw
+    Check ($notes.StartsWith('ID: ') -and $notes -notmatch '(?m)^#\s') 'release notes start with the asset ID instead of repeating the Release title'
+    Check ($notes.Contains('local.fixture.public') -and $notes.Contains('解压 ZIP') -and $notes.Contains($package.Sha256)) 'release notes retain identity, import instructions and checksum'
     $output=Join-Path $temp 'publication'
     $null=& $publish -Root $root -OutputDirectory $output -TargetCommit ('a'*40) 6>&1
     $state=$global:PetReleaseMock
     $tag='pet-local.fixture.public-v1.0.0'
     Check ($state.Releases.Count -eq 1 -and -not $state.Releases[$tag].draft) 'each public pack gets its own public Release'
+    $create=@($state.Calls | Where-Object {$_[0] -eq 'release' -and $_[1] -eq 'create'})[0]
+    Check ($create[[array]::IndexOf($create,'--title')+1] -ceq 'Fixture | <pack> v1.0.0') 'the Release name still includes the character name and version'
     Check (@($state.Calls | Where-Object {$_[0] -eq 'api' -and $_[1] -match '/releases\?per_page=100$'}).Count -gt 0) 'draft creation is verified through the paginated release list'
     Check (@($state.Calls | Where-Object {$_[0] -eq 'api' -and $_[1] -match '/releases/\d+$'}).Count -gt 0) 'new draft assets are fetched by numeric Release ID'
     Check (($state.Releases[$tag].assets.name | Sort-Object) -join ',' -ceq 'SHA256SUMS.txt,StarPie-PetAsset-local.fixture.public-1.0.0.zip') 'Release uploads ZIP and checksum only, never catalog or README'
