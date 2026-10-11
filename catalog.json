@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "catalog": "starpie-desktop-pet-assets",
   "maintainer": "SoftBlack42",
-  "updatedAtUtc": "2026-10-11T06:13:07.7740043Z",
+  "updatedAtUtc": "2026-10-11T06:20:20.0024308Z",
   "items": [
     {
       "id": "local.bluewhale-maid",
@@ -18,7 +18,12 @@
       "framesCount": 12,
       "preview": "idle.png",
       "publishable": true,
-      "maintainer": "SoftBlack42"
+      "maintainer": "SoftBlack42",
+      "releaseTag": "pet-local.bluewhale-maid-v1.0.1",
+      "downloadUrl": "https://github.com/Star-Pie/StarPie-DesktopPet-Assets/releases/download/pet-local.bluewhale-maid-v1.0.1/StarPie-PetAsset-local.bluewhale-maid-1.0.1.zip",
+      "packageSha256": "1227310f44c9e9636908915236b3ea6d3b25299b60041ebeeabcbebe00b7b99b",
+      "packageSize": 3530119,
+      "sourceFingerprint": "fbf9f2d3962fff00f021fe8a48aad5ba2a311c068989537cf7d4a8d36aade115"
     },
     {
       "id": "local.vodyanitsa.chibi",
@@ -34,7 +39,12 @@
       "framesCount": 12,
       "preview": "idle.png",
       "publishable": true,
-      "maintainer": "SoftBlack42"
+      "maintainer": "SoftBlack42",
+      "releaseTag": "pet-local.vodyanitsa.chibi-v1.0.0",
+      "downloadUrl": "https://github.com/Star-Pie/StarPie-DesktopPet-Assets/releases/download/pet-local.vodyanitsa.chibi-v1.0.0/StarPie-PetAsset-local.vodyanitsa.chibi-1.0.0.zip",
+      "packageSha256": "ca9726b926ce71819779a1e88a0bbdffcc194c4a71b82461b8adf175d5b6bf33",
+      "packageSize": 3469858,
+      "sourceFingerprint": "e0b5a0648b9aecd1450e0611f837d2c13b851132172dfcbc4814f0a4e7278539"
     },
     {
       "id": "local.starpie-chibi",
@@ -50,7 +60,12 @@
       "framesCount": 12,
       "preview": "idle.png",
       "publishable": true,
-      "maintainer": "SoftBlack42"
+      "maintainer": "SoftBlack42",
+      "releaseTag": "pet-local.starpie-chibi-v1.0.1",
+      "downloadUrl": "https://github.com/Star-Pie/StarPie-DesktopPet-Assets/releases/download/pet-local.starpie-chibi-v1.0.1/StarPie-PetAsset-local.starpie-chibi-1.0.1.zip",
+      "packageSha256": "335c9d7294dfa893b26b030d8dd27d59f04779796bbcf40f3eeed3612902a7f4",
+      "packageSize": 3462772,
+      "sourceFingerprint": "001733a9a7d564d8e3c733b6ba8ed79d00c9b133dc2f720871064c026fd961aa"
     },
     {
       "id": "local.stocking",
@@ -66,7 +81,12 @@
       "framesCount": 12,
       "preview": "idle.png",
       "publishable": true,
-      "maintainer": "SoftBlack42"
+      "maintainer": "SoftBlack42",
+      "releaseTag": "pet-local.stocking-v1.0.0",
+      "downloadUrl": "https://github.com/Star-Pie/StarPie-DesktopPet-Assets/releases/download/pet-local.stocking-v1.0.0/StarPie-PetAsset-local.stocking-1.0.0.zip",
+      "packageSha256": "181282ca2170ed270c5723ac5fa65d819ce9592bfe1c2bc3bac9fa47ae3ded30",
+      "packageSize": 2424652,
+      "sourceFingerprint": "241b6a8a73a27feeac367cbb976ba98111a95b145f1d2bcdffed0593c5916dde"
     }
   ],
   "bundle": {

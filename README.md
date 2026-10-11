@@ -7,10 +7,10 @@
 
 | 形象 | 预览 | 单独下载 |
 | --- | --- | --- |
-| 大肥鱼 | <img src="pets/bluewhale-maid/idle.png" alt="大肥鱼" width="120"> | v1.0.1（待发布） |
-| 沃雅妮莎 &#183; 鱼形点心 | <img src="pets/vodyanitsa/idle.png" alt="沃雅妮莎 &#183; 鱼形点心" width="120"> | v1.0.0（待发布） |
-| 星绫 | <img src="pets/starpie-chibi/idle.png" alt="星绫" width="120"> | v1.0.1（待发布） |
-| Stocking | <img src="pets/stocking/idle.png" alt="Stocking" width="120"> | v1.0.0（待发布） |
+| 大肥鱼 | <img src="pets/bluewhale-maid/idle.png" alt="大肥鱼" width="120"> | [v1.0.1](https://github.com/Star-Pie/StarPie-DesktopPet-Assets/releases/download/pet-local.bluewhale-maid-v1.0.1/StarPie-PetAsset-local.bluewhale-maid-1.0.1.zip) |
+| 沃雅妮莎 &#183; 鱼形点心 | <img src="pets/vodyanitsa/idle.png" alt="沃雅妮莎 &#183; 鱼形点心" width="120"> | [v1.0.0](https://github.com/Star-Pie/StarPie-DesktopPet-Assets/releases/download/pet-local.vodyanitsa.chibi-v1.0.0/StarPie-PetAsset-local.vodyanitsa.chibi-1.0.0.zip) |
+| 星绫 | <img src="pets/starpie-chibi/idle.png" alt="星绫" width="120"> | [v1.0.1](https://github.com/Star-Pie/StarPie-DesktopPet-Assets/releases/download/pet-local.starpie-chibi-v1.0.1/StarPie-PetAsset-local.starpie-chibi-1.0.1.zip) |
+| Stocking | <img src="pets/stocking/idle.png" alt="Stocking" width="120"> | [v1.0.0](https://github.com/Star-Pie/StarPie-DesktopPet-Assets/releases/download/pet-local.stocking-v1.0.0/StarPie-PetAsset-local.stocking-1.0.0.zip) |
 <!-- PET-ASSETS:END -->
 
 ## 下载与使用
